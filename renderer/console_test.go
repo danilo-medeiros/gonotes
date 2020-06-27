@@ -28,7 +28,7 @@ func getLine(line int, content string) string {
 func TestConsole_Table_withOneLine(t *testing.T) {
 	subject := Console{}
 	dummyData := [][]string{
-		[]string{"123456", "My first test"},
+		{"123456", "My first test"},
 	}
 
 	expected := "| 123456 | My first test |"
@@ -42,8 +42,8 @@ func TestConsole_Table_withOneLine(t *testing.T) {
 func TestConsole_Table_withMultipleLines(t *testing.T) {
 	subject := Console{}
 	dummyData := [][]string{
-		[]string{"123456", "First Line"},
-		[]string{"654321", "Second Line"},
+		{"123456", "First Line"},
+		{"654321", "Second Line"},
 	}
 
 	expected := "| 123456 | First Line  |\n| 654321 | Second Line |\n\n"
