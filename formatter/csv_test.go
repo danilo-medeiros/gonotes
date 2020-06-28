@@ -59,7 +59,7 @@ func TestCsv_ToArray(t *testing.T) {
 }
 
 func TestCsv_ToArray_withDoubleQuotes(t *testing.T) {
-	raw := `11111,Hello with ""double quotes""`
+	raw := "11111,Hello with \"\"double quotes\"\""
 	fmt := Csv{}
 
 	expected := [][]string{
@@ -73,12 +73,14 @@ func TestCsv_ToArray_withDoubleQuotes(t *testing.T) {
 }
 
 func TestCsv_ToArray_withCommas(t *testing.T) {
-	raw := `11111,Hello with ""double, quotes""`
+	raw := "11111,\"Hello with \"\"double, quotes\"\"\"\n22222,\"Hello with \"\"double, quotes\"\"\"\n"
 	fmt := Csv{}
 
 	expected := [][]string{
 		{"11111", "Hello with \"double, quotes\""},
+		{"22222", "Hello with \"double, quotes\""},
 	}
+
 	result := fmt.ToArray(raw)
 
 	if !equals(result, expected) {

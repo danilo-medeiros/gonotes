@@ -7,16 +7,15 @@ import (
 	"time"
 )
 
-var filePath = "./notes.csv"
-
 // FileRepository - ..
 type FileRepository struct {
 	Formatter formatter.Formatter
+	FilePath  string
 }
 
 // ListAll - ..
 func (f FileRepository) ListAll() [][]string {
-	data, err := ioutil.ReadFile(filePath)
+	data, err := ioutil.ReadFile(f.FilePath)
 
 	if err != nil {
 		return nil
@@ -81,5 +80,5 @@ func (f FileRepository) Delete(id string) bool {
 
 func (f FileRepository) writeToFile(list [][]string) {
 	content := f.Formatter.Parse(list)
-	ioutil.WriteFile(filePath, []byte(content), 0644)
+	ioutil.WriteFile(f.FilePath, []byte(content), 0644)
 }

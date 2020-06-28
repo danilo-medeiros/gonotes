@@ -35,34 +35,41 @@ func (Csv) Parse(list [][]string) string {
 // ToArray - ..
 func (Csv) ToArray(raw string) [][]string {
 	result := make([][]string, 1)
-	currentIndex := 0
+	lineIndex := 0
 	currentValue := ""
 	ignoreComma := false
 
-	for index, v := range raw {
-		value := string(v)
+	for index := 0; index < len(raw); index++ {
+		value := string(raw[index])
 		appendToCurrentValue := true
 		appendToLine := false
 		appendToList := false
-		isLastLine := index == len(raw)-1
+		isLastChar := index == len(raw)-1
 
-		if value == "\"" && string(raw[index-1]) != "\"" {
-			ignoreComma = !ignoreComma
+		if value == "\"" {
+			if !isLastChar && string(raw[index+1]) == "\"" {
+				if len(raw)-2 > index {
+					index++
+				}
+			} else {
+				ignoreComma = !ignoreComma
+				appendToCurrentValue = false
+			}
 		}
 
-		if !ignoreComma && value == "," {
+		if value == "," && !ignoreComma {
 			appendToLine = true
 			appendToCurrentValue = false
 		}
 
-		if isLastLine {
+		if isLastChar {
 			appendToLine = true
 		}
 
 		if value == "\n" {
-			appendToCurrentValue = false
 			appendToLine = true
-			appendToList = !isLastLine
+			appendToCurrentValue = false
+			appendToList = !isLastChar
 		}
 
 		if appendToCurrentValue {
@@ -70,20 +77,13 @@ func (Csv) ToArray(raw string) [][]string {
 		}
 
 		if appendToLine {
-			valueToAppend := currentValue
-
-			if string(currentValue[0]) == "\"" {
-				valueToAppend = valueToAppend[1 : len(currentValue)-1]
-			}
-
-			valueToAppend = strings.ReplaceAll(valueToAppend, "\"\"", "\"")
-			result[currentIndex] = append(result[currentIndex], valueToAppend)
+			result[lineIndex] = append(result[lineIndex], currentValue)
 			currentValue = ""
 		}
 
 		if appendToList {
 			result = append(result, []string{})
-			currentIndex++
+			lineIndex++
 		}
 	}
 

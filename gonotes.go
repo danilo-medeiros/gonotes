@@ -11,6 +11,7 @@ func main() {
 	app := app.App{
 		Repository: repository.FileRepository{
 			Formatter: formatter.Csv{},
+			FilePath:  "./notes.csv",
 		},
 		Renderer: renderer.Console{},
 	}
