@@ -14,35 +14,35 @@ type FileRepository struct {
 }
 
 // ListAll - ..
-func (f FileRepository) ListAll() [][]string {
+func (f FileRepository) ListAll() []map[string]string {
 	data, err := ioutil.ReadFile(f.FilePath)
 
 	if err != nil {
 		return nil
 	}
 
-	parsedContent := string(data)
-	return f.Formatter.ToArray(parsedContent)
+	list := f.Formatter.ToArray(string(data))
+
+	return list
 }
 
 // Create - ..
-func (f FileRepository) Create(content string) []string {
+func (f FileRepository) Create(data map[string]string) map[string]string {
 	list := f.ListAll()
-	id := time.Now().Unix()
-	row := []string{fmt.Sprintf("%v", id), content}
-	list = append(list, row)
+	data["id"] = fmt.Sprintf("%v", time.Now().Unix())
+	list = append(list, data)
 	f.writeToFile(list)
 
-	return row
+	return data
 }
 
 // Update - ..
-func (f FileRepository) Update(id string, content string) []string {
+func (f FileRepository) Update(data map[string]string) map[string]string {
 	list := f.ListAll()
 	indexToUpdate := -1
 
 	for index, value := range list {
-		if value[0] == id {
+		if value["id"] == data["id"] {
 			indexToUpdate = index
 		}
 	}
@@ -51,7 +51,7 @@ func (f FileRepository) Update(id string, content string) []string {
 		return nil
 	}
 
-	list[indexToUpdate][1] = content
+	list[indexToUpdate] = data
 	f.writeToFile(list)
 
 	return list[indexToUpdate]
@@ -63,7 +63,7 @@ func (f FileRepository) Delete(id string) bool {
 	deletionIndex := -1
 
 	for index, value := range list {
-		if value[0] == id {
+		if value["id"] == id {
 			deletionIndex = index
 		}
 	}
@@ -78,7 +78,7 @@ func (f FileRepository) Delete(id string) bool {
 	return true
 }
 
-func (f FileRepository) writeToFile(list [][]string) {
+func (f FileRepository) writeToFile(list []map[string]string) {
 	content := f.Formatter.Parse(list)
 	ioutil.WriteFile(f.FilePath, []byte(content), 0644)
 }

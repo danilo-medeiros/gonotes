@@ -14,6 +14,7 @@ func main() {
 			FilePath:  "./notes.csv",
 		},
 		Renderer: renderer.Console{},
+		Schema:   []string{"content"},
 	}
 
 	app.Run()

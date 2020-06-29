@@ -5,8 +5,8 @@ type Data interface{}
 
 // Repository - ..
 type Repository interface {
-	ListAll() [][]string
-	Delete(id string) bool
-	Create(content string) []string
-	Update(id string, content string) []string
+	ListAll() []map[string]string
+	Delete(string) bool
+	Create(map[string]string) map[string]string
+	Update(map[string]string) map[string]string
 }

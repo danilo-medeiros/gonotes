@@ -2,6 +2,6 @@ package formatter
 
 // Formatter - ..
 type Formatter interface {
-	Parse([][]string) string
-	ToArray(string) [][]string
+	Parse([]map[string]string) string
+	ToArray(string) []map[string]string
 }
