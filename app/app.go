@@ -29,7 +29,7 @@ func (app App) Run() {
 		}
 
 		if result != nil {
-			fmt.Print(app.Renderer.Table([][]string{result}))
+			fmt.Print(app.Renderer.Table([]map[string]string{result}))
 			fmt.Println("Saved note successfully")
 		} else {
 			fmt.Println("This note does not exist")

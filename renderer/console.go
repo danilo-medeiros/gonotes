@@ -1,11 +1,14 @@
 package renderer
 
+import "gonotes/utils"
+
 // Console - ..
 type Console struct{}
 
 // Table - ..
-func (c Console) Table(content [][]string) string {
+func (c Console) Table(list []map[string]string) string {
 	output := ""
+	content := utils.MapsToArrays(list)
 	contentLength := make([]int, len(content[0]))
 
 	for _, row := range content {
@@ -30,6 +33,5 @@ func (c Console) Table(content [][]string) string {
 		output += "|\n"
 	}
 
-	output += "\n"
 	return output
 }

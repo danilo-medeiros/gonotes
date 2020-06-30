@@ -2,5 +2,5 @@ package renderer
 
 // Renderer - ..
 type Renderer interface {
-	Table(content [][]string) string
+	Table([]map[string]string) string
 }

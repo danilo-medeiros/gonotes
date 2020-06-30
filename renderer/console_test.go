@@ -4,35 +4,17 @@ import (
 	"testing"
 )
 
-func getLine(line int, content string) string {
-	lineContent := ""
-	currentLine := 0
-
-	for _, val := range content {
-		value := string(val)
-
-		if value == "\n" {
-			if currentLine == line {
-				break
-			}
-			lineContent = ""
-			currentLine++
-		} else {
-			lineContent += value
-		}
-	}
-
-	return lineContent
-}
-
 func TestConsole_Table_withOneLine(t *testing.T) {
 	subject := Console{}
-	dummyData := [][]string{
-		{"123456", "My first test"},
+	dummyData := []map[string]string{
+		{
+			"id":      "123456",
+			"content": "My first test",
+		},
 	}
 
-	expected := "| 123456 | My first test |"
-	got := getLine(0, subject.Table(dummyData))
+	expected := "| id     | content       |\n| 123456 | My first test |\n"
+	got := subject.Table(dummyData)
 
 	if got != expected {
 		t.Errorf("\nExpected:\n%s\nGot:\n%s\n", expected, got)
@@ -41,12 +23,18 @@ func TestConsole_Table_withOneLine(t *testing.T) {
 
 func TestConsole_Table_withMultipleLines(t *testing.T) {
 	subject := Console{}
-	dummyData := [][]string{
-		{"123456", "First Line"},
-		{"654321", "Second Line"},
+	dummyData := []map[string]string{
+		{
+			"id":      "123456",
+			"content": "First Line",
+		},
+		{
+			"id":      "654321",
+			"content": "Second Line",
+		},
 	}
 
-	expected := "| 123456 | First Line  |\n| 654321 | Second Line |\n\n"
+	expected := "| id     | content     |\n| 123456 | First Line  |\n| 654321 | Second Line |\n"
 	got := subject.Table(dummyData)
 
 	if got != expected {
