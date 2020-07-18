@@ -1,8 +1,10 @@
 package formatter
 
 import (
-	"gonotes/parser"
+	"encoding/csv"
 	"gonotes/utils"
+	"log"
+	"strings"
 )
 
 // Csv - ..
@@ -11,15 +13,25 @@ type Csv struct{}
 // Parse - ..
 func (Csv) Parse(items []map[string]string) string {
 	list := utils.MapsToArrays(items)
-	parser := parser.Csv{}
+	sb := strings.Builder{}
+	w := csv.NewWriter(&sb)
+	err := w.WriteAll(list)
 
-	return parser.Parse(list)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return sb.String()
 }
 
 // ToArray - ..
 func (Csv) ToArray(raw string) []map[string]string {
-	parser := parser.Csv{}
-	result := parser.ToArray(raw)
+	r := csv.NewReader(strings.NewReader(raw))
+	result, err := r.ReadAll()
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return utils.ArraysToMaps(result)
 }
