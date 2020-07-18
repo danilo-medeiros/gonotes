@@ -8,13 +8,15 @@ import (
 )
 
 func main() {
-	app := app.App{
-		Repository: repository.FileRepository{
-			Formatter: formatter.Csv{},
-			FilePath:  "./notes.csv",
+	app := app.CliApp{
+		BaseApp: app.BaseApp{
+			Repository: repository.FileRepository{
+				Formatter: formatter.Csv{},
+				FilePath:  "./notes.csv",
+			},
+			Renderer: renderer.Console{},
+			Schema:   []string{"content"},
 		},
-		Renderer: renderer.Console{},
-		Schema:   []string{"content"},
 	}
 
 	app.Run()
