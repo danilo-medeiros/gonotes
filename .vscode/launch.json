@@ -55,6 +55,14 @@
                 "Updated content",
                 "save"
             ]
+        },
+        {
+            "name": "Run webapp",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "env": {}
         }
     ]
 }
