@@ -8,7 +8,17 @@ import (
 )
 
 func main() {
-	app := app.CliApp{
+	/* app := app.CliApp{
+		BaseApp: app.BaseApp{
+			Repository: repository.FileRepository{
+				Formatter: formatter.Csv{},
+				FilePath:  "./notes.csv",
+			},
+			Renderer: renderer.Console{},
+			Schema:   []string{"content"},
+		},
+	} */
+	app := app.WebApp{
 		BaseApp: app.BaseApp{
 			Repository: repository.FileRepository{
 				Formatter: formatter.Csv{},
